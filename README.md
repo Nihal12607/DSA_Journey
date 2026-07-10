@@ -17,7 +17,8 @@ I am solving Striver's A2Z DSA Sheet and documenting my solutions in C++.
 | Topic | Status |
 |-------|--------|
 | Patterns | ✅ Completed |
-| Basic Maths | ⏳ In Progress |
+| Basic Maths | ✅ Completed |
+| Basic Recusion | ✅ Completed |
 
 ## 🎯 Goal
 
