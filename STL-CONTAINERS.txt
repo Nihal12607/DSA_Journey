@@ -1,0 +1,21 @@
+Stack: Most operations like push, pop, and top operate in constant time, O(1) 
+
+Queue: Similar to stack, operations such as push, pop, and accessing the front or back elements occur in constant time, O(1)
+
+Priority Queue:
+push and pop operations occur in logarithmic time, O(log n) .
+Accessing the top element happens in constant time, O(1).
+
+Set:
+Operations like insert, erase, and find occur in logarithmic time, O(log n) .
+
+Unordered Set:
+Most operations (insert, erase, find) occur in constant time, O(1) on average .
+In the rare worst-case scenario, it can degrade to linear time, O(n) .
+
+Map:
+Operations like insert, erase, and find typically take logarithmic time, O(log n) .
+
+Unordered Map:
+Generally operates in constant time, O(1) .
+Like the unordered set, it can degrade to linear time, O(n) in the worst case
