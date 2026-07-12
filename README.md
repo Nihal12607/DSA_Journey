@@ -19,6 +19,7 @@ I am solving Striver's A2Z DSA Sheet and documenting my solutions in C++.
 | Patterns | ✅ Completed |
 | Basic Maths | ✅ Completed |
 | Basic Recusion | ✅ Completed |
+|Basic Hashing | ✅ Completed |
 
 ## 🎯 Goal
 
