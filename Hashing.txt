@@ -1,0 +1,773 @@
+# Striver A2Z DSA - Basic Hashing (Lecture 13)
+
+==================================================
+BASIC HASHING NOTES
+===================
+
+## What is Hashing?
+
+Hashing is a technique used to **pre-compute and store information** so that future queries can be answered very quickly.
+
+Definition:
+
+Hashing = Pre-store + Fetch when required
+
+Instead of searching through the array every time, we store useful information (usually frequency) beforehand.
+
+---
+
+## Problem Statement
+
+Given an array:
+
+1 2 1 3 2
+
+Answer queries like:
+
+* Frequency of 1
+* Frequency of 2
+* Frequency of 3
+* Frequency of 4
+
+---
+
+## Brute Force Approach
+
+For every query:
+
+1. Traverse the entire array.
+2. Count how many times the element appears.
+3. Return the count.
+
+Pseudo Code:
+
+count = 0
+
+for every element in array
+if(element == number)
+count++
+
+return count
+
+Time Complexity:
+
+One Query:
+O(N)
+
+Q Queries:
+O(Q × N)
+
+Example:
+
+N = 100000
+Q = 100000
+
+Operations = 10^5 × 10^5 = 10^10
+
+Since approximately 10^8 operations take about 1 second,
+
+10^10 operations take around 100 seconds.
+
+This is far too slow.
+
+---
+
+## Hashing Approach
+
+Instead of counting every time,
+
+Count once and store the answers.
+
+Example:
+
+Array
+
+1 2 1 3 2
+
+Create a frequency array
+
+Index:
+
+0 1 2 3 4 5
+
+Value:
+
+0 2 2 1 0 0
+
+Meaning:
+
+1 appears 2 times
+
+2 appears 2 times
+
+3 appears 1 time
+
+4 appears 0 times
+
+---
+
+## Steps of Hashing
+
+Step 1:
+
+Pre-computation
+
+for every element
+
+hash[element]++
+
+Step 2:
+
+Answer Queries
+
+hash[number]
+
+No traversal required.
+
+---
+
+## Time Complexity
+
+Pre-computation
+
+O(N)
+
+Each Query
+
+O(1)
+
+Overall
+
+O(N + Q)
+
+This is much better than
+
+O(Q × N)
+
+---
+
+## Frequency Array
+
+If maximum element is 12
+
+Create
+
+hash[13]
+
+because indexing starts from 0.
+
+---
+
+## C++ Code
+
+int hash[13]={0};
+
+for(int i=0;i<n;i++)
+{
+hash[arr[i]]++;
+}
+
+cout<<hash[number];
+
+---
+
+## When Can We Use Array Hashing?
+
+Use array hashing only when the maximum value is reasonably small.
+
+Example
+
+Maximum value = 100000
+
+Create
+
+hash[100001]
+
+Works perfectly.
+
+---
+
+## When Does Array Hashing Fail?
+
+Suppose maximum element is
+
+10^9
+
+Creating
+
+hash[1000000001]
+
+is impossible because of memory limitations.
+
+Need another data structure.
+
+---
+
+## Memory Limits (Approx.)
+
+Integer Array inside main()
+
+≈ 10^6 elements
+
+Integer Array globally
+
+≈ 10^7 elements
+
+Beyond this
+
+Segmentation Fault / Memory Error
+
+---
+
+# CHARACTER HASHING
+
+Suppose string is
+
+abcdabefc
+
+Queries
+
+Frequency of
+
+a
+b
+c
+z
+
+---
+
+## Lowercase Letters Only
+
+There are only
+
+26 characters
+
+Create
+
+hash[26]
+
+---
+
+## Index Formula
+
+character - 'a'
+
+Examples
+
+'a' - 'a' = 0
+
+'b' - 'a' = 1
+
+'c' - 'a' = 2
+
+'f' - 'a' = 5
+
+---
+
+## C++ Code
+
+int hash[26]={0};
+
+for(char ch:s)
+{
+hash[ch-'a']++;
+}
+
+Query
+
+cout<<hash[ch-'a'];
+
+---
+
+## ASCII Values
+
+'a' = 97
+
+'b' = 98
+
+...
+
+'z' = 122
+
+'A' = 65
+
+'Z' = 90
+
+Example
+
+int x='a';
+
+x stores
+
+97
+
+because characters automatically convert into ASCII values.
+
+---
+
+## Uppercase + Lowercase + Symbols
+
+Instead of
+
+hash[26]
+
+Use
+
+hash[256]
+
+because ASCII contains 256 characters.
+
+Code
+
+int hash[256]={0};
+
+for(char ch:s)
+{
+hash[ch]++;
+}
+
+No subtraction required.
+
+---
+
+# MAP HASHING
+
+Used when numbers are very large.
+
+Example
+
+1000000000
+
+999999999
+
+123456789
+
+Cannot use array hashing.
+
+Use
+
+map<int,int>
+
+---
+
+## Frequency Using map
+
+map<int,int> mp;
+
+for(int x:arr)
+{
+mp[x]++;
+}
+
+Query
+
+cout<<mp[number];
+
+---
+
+## Character Hashing using map
+
+map<char,int> mp;
+
+for(char ch:s)
+{
+mp[ch]++;
+}
+
+---
+
+## Time Complexity of map
+
+Insertion
+
+O(log N)
+
+Searching
+
+O(log N)
+
+Deletion
+
+O(log N)
+
+Keys remain sorted.
+
+---
+
+# unordered_map
+
+unordered_map<int,int> mp;
+
+Average Time
+
+O(1)
+
+Worst Case
+
+O(N)
+
+Keys are NOT sorted.
+
+---
+
+## Why Worst Case Happens?
+
+Because of
+
+COLLISION
+
+---
+
+# Collision
+
+Multiple keys get mapped to the same hash index.
+
+Example
+
+18
+
+28
+
+38
+
+48
+
+Using
+
+number % 10
+
+All become
+
+8
+
+Everything goes into the same bucket.
+
+Searching becomes slower.
+
+---
+
+## Division Method
+
+One basic hashing technique.
+
+Formula
+
+Hash Index = Number % Table Size
+
+Example
+
+28 % 10 = 8
+
+Store at index 8.
+
+---
+
+## Chaining
+
+If multiple elements map to the same index
+
+Store them as a linked list (chain).
+
+Example
+
+Bucket 8
+
+↓
+
+18
+
+↓
+
+28
+
+↓
+
+38
+
+↓
+
+48
+
+Searching happens inside that chain.
+
+---
+
+## map vs unordered_map
+
+map
+
+• Sorted
+• O(log N)
+• Safer
+• Uses balanced trees internally
+
+unordered_map
+
+• Unsorted
+• Average O(1)
+• Worst O(N)
+• Uses hashing internally
+• Faster in most cases
+
+---
+
+## Which One Should We Use?
+
+Interview Rule
+
+First Preference
+
+unordered_map
+
+If it gives TLE (very rare)
+
+Use
+
+map
+
+---
+
+## Keys Supported
+
+map
+
+Can use
+
+int
+
+long long
+
+char
+
+string
+
+pair
+
+vector
+
+custom data types
+
+etc.
+
+unordered_map
+
+Normally supports
+
+int
+
+long long
+
+char
+
+string
+
+double
+
+Pairs or custom types require custom hash functions.
+
+---
+
+# Complete Flow
+
+Brute Force
+
+↓
+
+O(Q × N)
+
+↓
+
+Hashing
+
+↓
+
+Pre-computation
+
+↓
+
+Frequency Array
+
+↓
+
+Character Hashing
+
+↓
+
+ASCII
+
+↓
+
+map
+
+↓
+
+unordered_map
+
+↓
+
+Collision
+
+↓
+
+Division Method
+
+↓
+
+Chaining
+
+---
+
+# Important Interview Points
+
+✔ Hashing stores information beforehand.
+
+✔ Array Hashing is fastest (O(1)) but only when the value range is small.
+
+✔ Character Hashing uses
+
+character - 'a'
+
+for lowercase letters.
+
+✔ Use hash[256] when characters are unknown.
+
+✔ Use map when values are large and sorting is required.
+
+✔ Use unordered_map when values are large and speed is important.
+
+✔ unordered_map is usually preferred because average complexity is O(1).
+
+✔ Worst case of unordered_map is O(N) because of collisions.
+
+✔ map always guarantees O(log N).
+
+---
+
+# Most Important C++ Templates
+
+1. Number Hashing
+
+```cpp
+int hash[100001]={0};
+
+for(int x:arr)
+{
+    hash[x]++;
+}
+
+cout<<hash[number];
+```
+
+---
+
+2. Character Hashing
+
+```cpp
+int hash[26]={0};
+
+for(char ch:s)
+{
+    hash[ch-'a']++;
+}
+
+cout<<hash[ch-'a'];
+```
+
+---
+
+3. Character Hashing (ASCII)
+
+```cpp
+int hash[256]={0};
+
+for(char ch:s)
+{
+    hash[ch]++;
+}
+```
+
+---
+
+4. unordered_map
+
+```cpp
+unordered_map<int,int> mp;
+
+for(int x:arr)
+{
+    mp[x]++;
+}
+
+cout<<mp[number];
+```
+
+---
+
+5. map
+
+```cpp
+map<int,int> mp;
+
+for(int x:arr)
+{
+    mp[x]++;
+}
+
+cout<<mp[number];
+```
+
+---
+
+# Practice Problems
+
+1. Count frequency of every element in an array.
+
+2. Find the highest frequency element.
+
+3. Find the lowest frequency element.
+
+4. Count character frequencies in a string.
+
+5. Check if two strings are anagrams.
+
+6. LeetCode - Two Sum.
+
+7. LeetCode - Contains Duplicate.
+
+8. LeetCode - Valid Anagram.
+
+9. LeetCode - Majority Element.
+
+10. LeetCode - Top K Frequent Elements.
+
+---
+
+# Quick Revision (1 Minute)
+
+• Hashing = Precompute + Fast Lookup
+
+• Brute Force = O(Q × N)
+
+• Hashing = O(N + Q)
+
+• Number Hashing → Frequency Array
+
+• Character Hashing → hash[ch - 'a']
+
+• ASCII Hashing → hash[256]
+
+• Large Numbers → map / unordered_map
+
+• map → O(log N), Sorted
+
+• unordered_map → Average O(1), Unsorted
+
+• Collision = Multiple keys mapped to the same bucket
+
+• Division Method = key % table_size
+
+• Chaining resolves collisions
+
+==================================================
+END OF NOTES
+============
