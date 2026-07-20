@@ -20,6 +20,7 @@ I am solving Striver's A2Z DSA Sheet and documenting my solutions in C++.
 | Basic Maths | ✅ Completed |
 | Basic Recusion | ✅ Completed |
 |Basic Hashing | ✅ Completed |
+|Sorting Algorithms | ✅ Completed |
 
 ## 🎯 Goal
 
